@@ -1,0 +1,37 @@
+Maven项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。
+Maven 除了以程序构建能力为特色之外，还提供高级项目管理工具。由于 Maven 的缺省构建规则有较高的可重用性，所以常常用两三行 Maven 构建脚本就可以构建简单的项目。
+
+pom.xml位置：
+存在struts-core包中
+
+//maven版本
+<modelVersion>4.0.0</modelVersion>
+//项目包名
+<groupId>com.hotent</groupId>
+//模块名（建议使用项目名）
+<artifactId>x5-mini-platform </artifactId>
+//快照版本
+<version>1.0.0-SNAPSHOT </version>
+<packaging>war</packaging>
+
+
+//引入所用到的依赖项
+<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8</version>
+			<scope>test</scope>
+		</dependency>
+</dependencies>
+
+    依赖也就是将项目中，引用的其他项目，打成jar包放在仓库中，如果代码中调用到的话，就可以使用了。
+项目之间可以相互依赖。
+
+    maven编辑时，如果项目中需要用到其他的jar包依赖，则会根据pom.xml中的jar包坐标，到本地maven仓库
+中查找，如果在本地仓库中找不到所依赖的jar包，则会从网上的maven中央仓库去找，下载，再将其放到本地仓库中。	

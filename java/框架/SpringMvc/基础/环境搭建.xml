@@ -1,0 +1,118 @@
+可以参考这个工程 : springmvcfirst1208
+步骤：
+1：加jar包。
+
+2：配置前端控制器。
+在web.xml配置，如下：
+<!-- springmvc前端控制器 -->
+<servlet>
+	<servlet-name>springmvc</servlet-name>
+	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	<!-- contextConfigLocation配置springmvc加载的配置文件（配置处理器映射器、适配器等等）
+	如果不配置contextConfigLocation，默认加载的是/WEB-INF/servlet名称-serlvet.xml（springmvc-servlet.xml）
+	 -->
+	<init-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:springmvc.xml</param-value>
+	</init-param>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>springmvc</servlet-name>
+	<!-- 
+	第一种：*.action，访问以.action结尾 由DispatcherServlet进行解析 
+	第二种：/，所以访问的地址都由 DispatcherServlet 进行解析，对于静态文件的解析需要配置不让 DispatcherServlet 进行解析
+	使用此种方式可以实现 RESTful 风格的url
+	第三种：/* ，*/这样配置不对，使用这种配置，最终要转发到一个jsp页面时，
+	仍然会由 DispatcherServlet 解析jsp地址，不能根据jsp页面找到handler，会报错。
+	 -->
+	<url-pattern>*.action</url-pattern>
+</servlet-mapping>
+
+
+-----------------------
+3:
+	3.1:配置处理器映射器
+	3.2:配置处理器适配器
+	3.3:配置视图解析器
+在 springmvc.xml中配置：
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
+
+	<!-- 配置Handler -->
+	<bean id="itemsController1" name="/queryItems_test.action" class="cn.itcast.ssm.controller.ItemsController1" />
+	<!-- 配置另外一个Handler -->
+	<bean id="itemsController2" class="cn.itcast.ssm.controller.ItemsController2" />
+	
+	<!-- 对于注解的Handler可以单个配置
+	实际开发中建议使用组件扫描
+	 -->
+	<!-- <bean class="cn.itcast.ssm.controller.ItemsController3" /> -->
+	<!-- 可以扫描controller、service、...
+	这里让扫描controller，指定controller的包
+	 -->
+	<context:component-scan base-package="cn.itcast.ssm.controller"></context:component-scan>
+	
+	
+	<!-- 处理器映射器 将bean的name作为url进行查找 ，需要在配置Handler时指定beanname（就是url） 
+	所有的映射器都实现 HandlerMapping接口。
+	-->
+	<bean
+		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+		
+	<!--简单url映射  -->
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<!-- 对itemsController1进行url映射，url是/queryItems1.action -->
+				<prop key="/queryItems1.action">itemsController1</prop>
+				<prop key="/queryItems2.action">itemsController1</prop>
+				<prop key="/queryItems3.action">itemsController2</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!--注解映射器 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+	<!--注解适配器 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+	
+	<!-- 使用 mvc:annotation-driven代替上边注解映射器和注解适配器配置
+	mvc:annotation-driven默认加载很多的参数绑定方法，
+	比如json转换解析器就默认加载了，如果使用mvc:annotation-driven不用配置上边的RequestMappingHandlerMapping和RequestMappingHandlerAdapter
+	实际开发时使用mvc:annotation-driven
+	 -->
+	<!-- <mvc:annotation-driven></mvc:annotation-driven> -->
+	
+
+	<!-- 处理器适配器 所有处理器适配器都实现 HandlerAdapter接口 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+	<!-- 另一个非注解的适配器 -->
+	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
+
+	<!-- 视图解析器
+	解析jsp解析，默认使用jstl标签，classpath下的得有jstl的包
+	 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 配置jsp路径的前缀 -->
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<!-- 配置jsp路径的后缀 -->
+		<!--在返回ModelAndView的时候，就可以省略前缀和后缀了-->
+		<property name="suffix" value=".jsp"/>
+	</bean>
+</beans>
+

@@ -1,0 +1,29 @@
+
+dao:
+1.编写mapper接口，相当于mvc中的dao接口，如：
+//用户信息综合查询
+public interface UserMapper {
+		public List<UserCustom> findUserList(UserQueryVo userQueryVo) throws Exception;
+}
+
+dapImpl:
+2.编写mapper.xml映射文件，相当于mvc中的daoImpl文件，如：
+<mapper namespace="cn.itcast.mybatis.mapper.UserMapper">
+	<select id="findUserList" parameterType="cn.itcast.mybatis.po.UserQueryVo" 
+			resultType="cn.itcast.mybatis.po.UserCustom">
+	SELECT * FROM USER
+	<!-- 
+	where可以自动去掉条件中的第一个and
+	 -->
+	<where>
+		<!-- 引用sql片段 的id，如果refid指定的id不在本mapper文件中，需要前边加namespace -->
+		<include refid="query_user_where"></include>
+		<!-- 在这里还要引用其它的sql片段  -->
+	</where>
+	</select>
+</mapper>
+注意：
+(1)mapper中的namespace需要和interface中的接口名一致,namespace相当于daoImpl的类名。
+(2)mapper.java接口中的方法名和mapper.xml中statement的id一致
+(3)返回值类型需要对应resultType，入参需要对应parameterType。
+(4)在SqlMapConfig.xml中加载mapper.xml

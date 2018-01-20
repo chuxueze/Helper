@@ -1,0 +1,64 @@
+pom.xml常用元素介绍
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!--指定了当前pom的版本-->
+	<modelVersion>4.0.0</modelVersion>
+	<!--主项目标识，标识当前maven属于哪个实际的项目-->
+	<groupId>com.hotent</groupId>
+	<!--模块的标识，一个实际项目中的一个模块-->
+	<artifactId>x5-mini-platform </artifactId>
+	<!--快照版-->
+	<version>1.0.0-SNAPSHOT </version>
+	<!--打包方式，如果不指定的话，则是jar（war,zip,pom）-->
+	<packaging>war</packaging>
+	<!--项目描述名-->
+	<name></name>
+	<!--项目的地址-->
+	<url></url>
+	<!--项目描述-->
+	<description></description>
+	<!--开发人员列表-->
+	<devvelopers></devvelopers>
+	<!--许可证信息-->
+	<licenses></licenses>
+	<!---->
+	<organization></organization>
+
+	<!--依赖项-->
+    <dependencies>
+    	<dependency>
+	  		<groupId>com.hotent.base</groupId>
+	  		<artifactId>x5-base-core</artifactId>
+	  		<version>${x5-base-root.version}</version>
+	  		<!--范围，test:只在测试的依赖范围内有用-->
+	  		<scope>compile</scope>
+	  		<!--设置依赖是否可选，默认为false，子项目默认继承-->
+	  		<optional></optional>
+	  		<!--排除依赖传递列表-->	
+	  		<exclusions>
+	  			<exclusion></exclusion>
+	  		</exclusions>
+	  	</dependency>
+    </dependencies>
+    <!-- 依赖的管理 -->
+    <dependencyManagement>
+    	
+    </dependencyManagement>
+
+    <build>
+    	<!-- 插件列表 -->
+    	<plugins>
+    		<groupId></groupId>
+    		...
+    	</plugins>
+    </build>
+
+    <!-- 子模块中对父模块的继承 -->
+    <parent></parent>
+    <!-- 用于聚合多个子模块的maven项 -->
+    <modules></modules>
+
+
+
+
+</project>

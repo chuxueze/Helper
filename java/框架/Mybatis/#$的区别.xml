@@ -1,0 +1,26 @@
+如果
+<insert id="insert" parameterType="yycg.business.pojo.po.GysypmlControl" >
+    insert into GYSYPML_CONTROL (ID, YPXXID, USERGYSID, 
+      CONTROL, ADVICE, VCHAR1, 
+      VCHAR2)
+    values (#{id,jdbcType=VARCHAR}, #{ypxxid,jdbcType=VARCHAR}, #{usergysid,jdbcType=VARCHAR}, 
+      #{control,jdbcType=CHAR}, #{advice,jdbcType=VARCHAR}, #{vchar1,jdbcType=VARCHAR}, 
+      #{vchar2,jdbcType=VARCHAR})
+</insert>
+
+$符号下：
+如果指定parameterType为简单类型而不是类类型，则
+变量名应该为value
+如下：
+<insert id="selectById" parameterType="string" >
+    select * from user where id = ${value}
+</insert>
+
+如果是#,则可以随意指定一个字符代替。
+如果是$,则需要将字段名字对应上
+
+#相当于加上一个双引号，成为一个字符串
+会将数据进行适当处理再拼接sql
+
+$相当于直接显示数据
+使用可能会引起sql注入，因为是不加任何修饰的

@@ -1,0 +1,13 @@
+ 在web.xml中配置
+
+<!-- 加载spring容器 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/spring/applicationContext-*.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+
+加载spring容器之后，所有的bean注入，包扫描等Ioc操作才能生效。

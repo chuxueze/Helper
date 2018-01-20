@@ -1,0 +1,24 @@
+<dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.8</version>
+	<scope>test</scope>
+</dependency>
+
+scope:默认的范围，编译测试运行都有效果
+provided:在编译和测试时有效果
+runtime:在测试和运行时有效
+test:在测试时有效果
+system:在与本机系统相关，可移植性差
+import:导入的范围，它只使用在dependencyManagement中，
+       表示从其它的pom中导入dependecy的配置
+
+
+如果A依赖B,而B依赖C。
+则A会间接地依赖C，也就是传递依赖，
+当A只想依赖B，而不想依赖C时，就用到了
+<!--排除依赖传递列表-->	
+依赖传递：
+<exclusions>
+	<exclusion></exclusion>
+</exclusions>

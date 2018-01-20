@@ -1,0 +1,41 @@
+Maven中的坐标和仓库：
+
+可通过坐标进行唯一标识:
+<groupId>com.hotent</groupId>
+<artifactId>x5-mini-platform </artifactId>
+<version>1.0.0-SNAPSHOT </version>
+
+一般命名规则：
+groupId:公司名+项目名
+artifactId:项目名+模块名
+
+坐标：构件
+仓库：
+	本地仓库和远程仓库
+		1.本地仓库中找，找不到的话
+		2.Maven全球中央仓库找，找到之后下载到本地仓库（如果远程中央仓库也找不到 ，就会报错）
+	镜像仓库（配置了镜像仓库之后，所有指定原仓库的，只能通过镜像仓库）
+		由于maven一般是国外的仓库，由于某些网络限制，国内也有maven的镜像仓库，我们可以直接配置国内的镜像仓库，这样就不用去连接国外仓库了。
+		setting.xml
+		<mirrors>
+		  <mirror>
+		    <id>nexus</id> 
+		    <mirrorOf>*</mirrorOf> 
+		    <url>http://119.145.165.118:8101/nexus/content/groups/Creatson</url>
+		    <!-- 快照是否可以下载使用 -->
+		    <snapshots>
+				  <enabled>true</enabled>
+			</snapshots>
+		  </mirror>
+		   <mirror>
+		    <id>nexus-hotent</id> 
+		    <mirrorOf>*</mirrorOf> 
+		    <url>http://www.hotent.org:8081/nexus/content/groups/hotent/</url>
+		  </mirror>
+		  <mirror>
+		      <id>alimaven</id>
+		      <name>aliyun maven</name>
+		      <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+		      <mirrorOf>central</mirrorOf>        
+		  </mirror>
+		</mirrors>

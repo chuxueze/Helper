@@ -1,0 +1,148 @@
+<!-- 采购单药品明细查询列表 -->
+	<select id="findYycgdmxList" parameterType="yycg.business.pojo.vo.YycgdQueryVo"
+		resultType="yycg.business.pojo.vo.YycgdmxCustom">
+		<!-- 引入分页头 -->
+		<include refid="yycg.base.commonSql.page_start" />
+
+		select yycgdmx.id yycgdmxid,
+		useryy.id useryyid,
+		useryy.mc useryymc,
+		ypxx.id,
+		ypxx.bm,
+		ypxx.mc,
+		ypxx.jx,
+		ypxx.gg,
+		ypxx.zhxs,
+		ypxx.scqymc,
+		ypxx.spmc,
+
+		ypxx.jyzt,
+
+		(select info
+		from dictinfo
+		where ypxx.jyzt =
+		dictcode
+		and typecode = '003') jyztmc,
+		yycgdmx.zbjg,
+		yycgdmx.jyjg,
+		yycgdmx.cgl,
+		yycgdmx.cgje,
+		yycgdmx.cgzt,
+		(select info
+		from dictinfo
+		where
+		typecode = '011'
+		and dictcode = yycgdmx.cgzt) cgztmc,
+		usergys.mc
+		usergysmc,
+		usergys.id usergysid
+
+		from yycgdmx${businessyear} yycgdmx,
+		yycgd${businessyear} yycgd, useryy,
+		ypxx, usergys
+		where yycgdmx.yycgdid
+		= yycgd.id
+		and yycgd.useryyid = useryy.id
+		and yycgdmx.ypxxid = ypxx.id
+		and yycgdmx.usergysid = usergys.id
+
+		<!-- 只查询某个采购单下药品明细 -->
+		<include refid="query_yycgdmx_where" />
+		<!-- 药品查询条件 -->
+		<include refid="yycg.business.dao.mapper.YpxxMapperCustom.query_ypxx_where" />
+
+		<!-- 分页尾部 -->
+		<include refid="yycg.base.commonSql.page_end" />
+	</select>
+
+
+
+
+ 当mapper中涉及到多个表关联，需要用到多个入参条件时，parameterType可以用一个包装类对象
+ YycgdQueryVo，将需要的条件字段包含起来。
+ 包装对象中，包含多个bean.
+
+
+
+
+public class YycgdQueryVo {
+
+	// 接收页面批量参数
+	private List<YycgdmxCustom> yycgdmxCustoms;
+
+	private String businessyear;// 年份
+
+	private PageQuery pageQuery;// 分页参数
+
+	private Useryy useryy;// 医院信息
+	private YycgdCustom yycgdCustom;// 采购单基本信息
+	private YycgdmxCustom yycgdmxCustom;// 采购单明细
+	private YpxxCustom ypxxCustom;// 药品信息
+
+	private GysypmlCustom gysypmlCustom;// 供货商药品目录
+
+	public YycgdCustom getYycgdCustom() {
+		return yycgdCustom;
+	}
+
+	public void setYycgdCustom(YycgdCustom yycgdCustom) {
+		this.yycgdCustom = yycgdCustom;
+	}
+
+	public String getBusinessyear() {
+		return businessyear;
+	}
+
+	public void setBusinessyear(String businessyear) {
+		this.businessyear = businessyear;
+	}
+
+	public YycgdmxCustom getYycgdmxCustom() {
+		return yycgdmxCustom;
+	}
+
+	public void setYycgdmxCustom(YycgdmxCustom yycgdmxCustom) {
+		this.yycgdmxCustom = yycgdmxCustom;
+	}
+
+	public PageQuery getPageQuery() {
+		return pageQuery;
+	}
+
+	public void setPageQuery(PageQuery pageQuery) {
+		this.pageQuery = pageQuery;
+	}
+
+	public YpxxCustom getYpxxCustom() {
+		return ypxxCustom;
+	}
+
+	public void setYpxxCustom(YpxxCustom ypxxCustom) {
+		this.ypxxCustom = ypxxCustom;
+	}
+
+	public GysypmlCustom getGysypmlCustom() {
+		return gysypmlCustom;
+	}
+
+	public void setGysypmlCustom(GysypmlCustom gysypmlCustom) {
+		this.gysypmlCustom = gysypmlCustom;
+	}
+
+	public Useryy getUseryy() {
+		return useryy;
+	}
+
+	public void setUseryy(Useryy useryy) {
+		this.useryy = useryy;
+	}
+
+	public List<YycgdmxCustom> getYycgdmxCustoms() {
+		return yycgdmxCustoms;
+	}
+
+	public void setYycgdmxCustoms(List<YycgdmxCustom> yycgdmxCustoms) {
+		this.yycgdmxCustoms = yycgdmxCustoms;
+	}
+
+}

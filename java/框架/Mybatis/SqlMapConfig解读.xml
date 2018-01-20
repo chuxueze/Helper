@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 加载属性文件 -->
+	<properties resource="db.properties">
+		<!--properties中还可以配置一些属性名和属性值  -->
+		<!-- <property name="jdbc.driver" value=""/> -->
+	</properties>
+	<!-- 全局配置参数，需要时再设置 -->
+	<settings>
+		<!-- 打开延迟加载开关 -->
+		<setting name="lazyLoadingEnabled" value="ture"/>
+		<!-- 将积极加载改为消极加载，也就是按需加载 -->
+		<setting name="aggressiveLazyLoading" value="false"/>
+	</settings>
+	
+	<!-- 别名定义 -->
+	<typeAliases>
+		
+		<!-- 针对单个别名定义
+		type：类型的路径
+		alias：别名
+		 -->
+		<!-- <typeAlias type="cn.itcast.mybatis.po.User" alias="user"/> -->
+		<!-- 批量别名定义 
+		指定包名，mybatis自动扫描包中的po类，自动定义别名，别名就是类名（首字母大写或小写都可以）
+		-->
+		<package name="cn.itcast.mybatis.po"/>
+		
+	</typeAliases>
+	
+	<!-- 和spring整合后 environments配置将废除-->
+	<environments default="development">
+		<environment id="development">
+		<!-- 使用jdbc事务管理，事务控制由mybatis-->
+			<transactionManager type="JDBC" />
+		<!-- 数据库连接池，由mybatis管理-->
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 加载 映射文件 -->
+	<mappers>
+		<mapper resource="sqlmap/User.xml"/>
+		<mapper resource="sqlmap/Items.xml"/>
+		
+		<!--通过resource方法一次加载一个映射文件 -->
+		<!-- <mapper resource="mapper/UserMapper.xml"/> -->
+		
+		<!-- 通过mapper接口加载单个 映射文件
+		遵循一些规范：需要将mapper接口类名和mapper.xml映射文件名称保持一致，且在一个目录 中
+		上边规范的前提是：使用的是mapper代理方法
+		 -->
+		<!-- <mapper class="cn.itcast.mybatis.mapper.UserMapper"/> -->
+		
+		<!-- 批量加载mapper
+		指定mapper接口的包名，mybatis自动扫描包下边所有mapper接口进行加载
+		遵循一些规范：需要将mapper接口类名和mapper.xml映射文件名称保持一致，且在一个目录 中
+		上边规范的前提是：使用的是mapper代理方法
+		 -->
+		<package name="cn.itcast.mybatis.mapper"/>
+
+	</mappers>
+	
+</configuration>
+
+db.properties文件：
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/mybatis
+jdbc.username=root
+jdbc.password=mysql
+
+
+
+properties（属性）
+settings（全局配置参数）
+typeAliases（类型别名）
+typeHandlers（类型处理器）
+objectFactory（对象工厂）
+plugins（插件）
+environments（环境集合属性对象）
+environment（环境子属性对象）
+transactionManager（事务管理）
+dataSource（数据源）
+mappers（映射器）
+-------------------------------------------------
+properties：
+<properties resource="" url="">
+	<property name="" value=""/>
+</properties>
+加载属性文件，用途之一，可以将数据库配置文件抽取出来，单独放置，便于维护
+-------------------------------------------------
+mybatis框架在运行时可以调整一些运行参数。
+比如：开启二级缓存、开启延迟加载。。
+全局参数将会影响mybatis的运行行为。
+-------------------------------------------------
+在mapper.xml中，定义很多的statement，statement需要parameterType指定输入参数的类型、需要resultType指定输出结果的映射类型。
+如果在指定类型时输入类型全路径，不方便进行开发，可以针对parameterType或resultType指定的类型定义一些别名，在mapper.xml中通过别名定义，方便开发
+<typeAliases>
+	
+	<!-- 针对单个别名定义
+	type：类型的路径
+	alias：别名
+	 -->
+	<typeAlias type="cn.itcast.mybatis.po.User" alias="user"/>
+	<!-- 批量别名定义 
+	指定包名，mybatis自动扫描包中的po类，自动定义别名，别名就是类名（首字母大写或小写都可以）
+	-->
+	<package name="cn.itcast.mybatis.po"/>
+</typeAliases>
+别名定义完成后，需要在mapper.xml对应的引用位置，将名称改为自己所定义的别名
+如：
+<select id="findUserById" parameterType="int" resultType="user">
+	SELECT * FROM USER WHERE id=#{value}
+</select>
+包定义：
+指定包名，mybatis自动扫描包中的po类，自动定义别名，别名就是类名（首字母大写或小写都可以）
+<mapper namespace="Items">
+	<select id="selectById" parameterType="Items"  resultType="ItemsVo">
+		select * from items where id = #{id}
+	</select>
+</mapper>
+有了包定义之后，
+parameterType和resultType只需要指定包名即可。
+------------------------------------------------
+typeHandlers（类型处理器）：
+mybatis中通过typeHandlers完成jdbc类型和java类型的转换。
+在mapper.xml中将java类型的数据处理成适合的sql语句。
+通常情况下，mybatis提供的类型处理器满足日常需要，不需要自定义.
+------------------------------------------------
+加载映射文件：
+<mappers>
+	<!--单独加载-->
+	<mapper resource="sqlmap/User.xml"/>
+	<mapper resource="sqlmap/Items.xml"/>
+	<!-- 批量加载mapper 和类别名类似-->
+	<package name="cn.itcast.mybatis.mapper"/>
+</mappers>
+也可以是：去指定
+需要注意 namespace和id 需要和java文件对应，而且mapper.xml和mapper.java需要在同一个目录下。
+<mapper class=""/>

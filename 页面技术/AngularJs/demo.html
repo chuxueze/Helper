@@ -1,0 +1,29 @@
+<!doctype html>
+<html ng-app="HelloAngular">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <!-- ng-model -->
+        <input type="text" name="pass" ng-model="pass">
+        <p>{{pass}}</p>
+
+        <!-- ng-init  ng-bind -->
+        <div ng-app="" ng-init="firstName='John'">
+            <p>姓名为 <span ng-bind="firstName"></span></p>
+        </div>
+
+        <!-- ng-controller -->
+        <div ng-controller="helloAngular">
+            <p>{{greeting.text}},Angular</p>
+            <p>{{greeting.text}},{{greeting.name}}</p>
+        </div>
+
+        <!-- html5 -->
+        <div data-ng-app="" data-ng-init="firstName='John'">
+            <p>姓名为 <span data-ng-bind="firstName"></span></p>
+        </div>
+    </body>
+    <script src="js/angular-1.3.0.js"></script>
+    <script src="HelloAngular_Module.js"></script>
+</html>

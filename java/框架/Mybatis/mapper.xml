@@ -1,0 +1,12 @@
+select中的
+resultType指定sql输出结果的所映射的java对象类型
+resultType表示将单条记录映射成的java对象
+例如：
+select * from user;
+返回一个list
+但在resultType中，我们只需要返回他单条的记录类型就可以
+即：
+resultType="UserDTO"
+
+
+/x5-mini-platform/src/main/java/com/hotent/portal/service/IndexService.java
