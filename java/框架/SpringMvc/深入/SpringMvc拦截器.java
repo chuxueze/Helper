@@ -22,7 +22,7 @@
 	</mvc:interceptor>
 	<mvc:interceptor>
 		<!-- 表示所有url包括子url路径 -->
-		<mvc:mapping path="/**"/>
+		<mvc:mapping path="/**"/>		
 		<bean class="cn.itcast.ssm.interceptor.HandlerInterceptor1"></bean>
 	</mvc:interceptor>
 	<mvc:interceptor>
