@@ -2,9 +2,8 @@
 1.构造器确保初始化
 2.方法重载
 3.this关键字
-
-
-
+4.清理:终结处理和垃圾回收
+5.构造器初始化
 
 
 
@@ -67,3 +66,43 @@ public class TestThis {
     }
 }
 i的值为：3
+
+
+----
+4.清理:终结处理和垃圾回收
+
+垃圾回收器只知道释放那些经由new分配的内存。 
+存储空间的释放影响存储空间的分配。
+
+
+-----
+5.构造器初始化
+变量定义的先后顺序决定了初始化的顺序。
+
+class Window{
+	window(int marker){
+		print("window"+marker);
+	}
+}
+class House{
+	Window w1 = new Windwo(1);
+	House(){
+		print("House");
+		w3 = new Window(3);
+	}
+	Window w2 = new Window(2);
+	void f(){print("f")}
+	Window w3 = new Window(3);
+}
+public class Test{
+	public static void main(String[] args){
+		House h =new House();
+		h.f();
+	}
+}
+w1
+w2
+w3
+House
+w33
+f
