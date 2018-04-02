@@ -4,7 +4,7 @@
 3.this关键字
 4.清理:终结处理和垃圾回收
 5.构造器初始化
-
+6.数组初始化
 
 
 
@@ -77,6 +77,17 @@ i的值为：3
 
 -----
 5.构造器初始化
+
+自动初始化会在构造器调用之前发生，如下：
+public class Dog {
+    int i;
+    public Dog() {
+        i = 1;
+    }
+}
+i会被先置为0，而后调用构造器时，才置为1。
+--
+
 变量定义的先后顺序决定了初始化的顺序。
 
 class Window{
@@ -85,14 +96,14 @@ class Window{
 	}
 }
 class House{
-	Window w1 = new Windwo(1);
-	House(){
+	Window w1 = new Windwo(1);//1
+	House(){//4
 		print("House");
 		w3 = new Window(3);
 	}
-	Window w2 = new Window(2);
-	void f(){print("f")}
-	Window w3 = new Window(3);
+	Window w2 = new Window(2);//2
+	void f(){print("f")}//5
+	Window w3 = new Window(3);//3
 }
 public class Test{
 	public static void main(String[] args){
@@ -106,3 +117,35 @@ w3
 House
 w33
 f
+
+House中，w1,w2,w3都属于变量，所以其运行的顺序优于House的构造器。
+
+------
+6.数组初始化
+
+一个数组赋值给另外一个数组，只是复制数组的一个引用，并不是将所有值赋值。如下：
+public class Arr {
+    public static void main(String[] args) {
+        int[] a1s = {1,2,3,4,5};
+        int[] a2s = a1s;
+        for(int i = 0,len = a2s.length;i<len;++i) {
+            a2s[i] = a2s[i] + 10;//对a2s进行重新赋值，由于只是复制了引用，所以其实a1s也在共用这里的数值
+        }
+        for(int i = 0,len = a1s.length;i<len;++i) {
+            System.out.println("a1["+i+"]..."+a1s[i]);//因为只是复制了引用，这里的a1s和a2s其实是同一个数据
+            System.out.println("a2["+i+"]..."+a2s[i]);
+            
+        }
+    }
+}
+结果：
+a2[0]...11
+a1[0]...11
+a2[1]...12
+a1[1]...12
+a2[2]...13
+a1[2]...13
+a2[3]...14
+a1[3]...14
+a2[4]...15
+a1[4]...15
