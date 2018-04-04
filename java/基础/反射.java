@@ -44,7 +44,7 @@ IOC的实现原理—反射与工厂模式之间的对比
 interface fruit{  
     public abstract void eat();  
 }   
-class Apple implements fruit{  
+class Apple implements fruit{  	
      public void eat(){  
          System.out.println("Apple");  
      }  
