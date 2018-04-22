@@ -1,3 +1,20 @@
+JMS编码规范
+1.ConnectionFactory:用于创建连接到消息中间件的连接工厂
+2.Connection:代表了应用程序和消息服务器之间的通信链路
+3.Destination:指消息发布和接收的地点，包括队列和主题
+4.Session:表示一个单线程的上下文，用于发送和接收消息
+5.MessageConsumer:由会话创建，用于接收发送到目标的消息
+6.MessageProducer:由会话创建，用于发送消息到目标
+7.Message:是在消费者和生产者之间传送的对象，消息头，一组消息属性，一个消息体
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
 
 public class MqModel {
 	/**
@@ -38,6 +55,11 @@ public class Producer {
 		// 4.通过Session创建Destination对象，指的是一个客户端用来指定生产消息目标和消费消息来源的对象。在PTP模式中，Destination被称作Queue即队列;在Pub/Sub模式，Destination被称作Topic即主题。在程序
 		// 中可以使用多个Queue和Topic。
 		Destination destination = session.createQueue(MqModel.QUEUENAME1);
+
+		/****************************************************************/
+		/*Destination destination = session.createTopic(MqModel.TOPICNAME1);*/
+		/****************************************************************/
+		
 		// 5.我们需要通过Session对象创建消息的发送和接收对象（生产者和消费者）MessageProducer/MessageConsumer。
 		MessageProducer messageProducer = session.createProducer(destination);
 		// 6.我们可以使用MessageProducer的setDeliveryMode方法为其设置持久化特性和非持久化特性（DeliveryMode）
@@ -85,6 +107,11 @@ public class Receiver {
 		// 4.通过Session创建Destination对象，指的是一个客户端用来指定生产消息目标和消费消息来源的对象。在PTP模式中，Destination被称作Queue即队列;在Pub/Sub模式，Destination被称作Topic即主题。在程序
 		// 中可以使用多个Queue和Topic。
 		Destination destination = session.createQueue(MqModel.QUEUENAME1);
+
+		/****************************************************************/
+		/*Destination destination = session.createTopic(MqModel.TOPICNAME1);*/
+		/****************************************************************/
+
 		// 5.我们需要通过Session对象创建消息的发送和接收对象（生产者和消费者）MessageProducer/MessageConsumer。
 		MessageConsumer messageConsumer = session.createConsumer(destination);
 		

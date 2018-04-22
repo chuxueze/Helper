@@ -14,7 +14,7 @@ Consumer(MessageConsumer)消费者
 PTP:Point to Point，点对点消息模型
 Pub/Sub:Publish/Subscribe,即发布/订阅的消息模型
 Queue:队列目标
-Topic：主要目标
+Topic：主题目标
 ConnectionFactory：连接工厂，JMS用它创建连接
 Connection：JMS客户端到JMS Provider的连接
 Destination：消息的目的地
