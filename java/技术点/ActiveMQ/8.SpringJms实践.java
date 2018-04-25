@@ -1,25 +1,20 @@
-1.代码
+1.代码(生产者，消费者)
 2.pom文件引入
-3.resources文件
-
-
-
+3.resources xml配置文件
 
 
 
 
 ---------------------------------------------------------------------------------
-1.代码
-
+1.代码(生产者，消费者)
+/*************************************消息生产者*************************************/
 ProducerService.java
 
-import javax.jms.Destination;
 public interface ProducerService {
     void sendMessage(String message);
 }
 
 --------------
-
 ProducerServiceImpl.java
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +25,8 @@ import javax.jms.*;
 public class ProducerServiceImpl implements ProducerService {
     @Autowired
     JmsTemplate jmsTemplate;
-    @Resource(name = "queueDestination")
+    //@Resource(name = "queueDestination")//队列模式
+    @Resource(name = "topicDestination")//主题模式
     Destination destination;
     public void sendMessage(final String message) {
         //使用JmsTemplate发送消息
@@ -50,14 +46,12 @@ public class ProducerServiceImpl implements ProducerService {
     }
 }
 
+
 ----------------
 
 AppProducer.java
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import javax.jms.*;
-
 public class AppProducer {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("producer.xml");
@@ -65,10 +59,41 @@ public class AppProducer {
         for (int i = 0; i < 100; i++) {
             service.sendMessage("----第"+i+"条消息----");
         }
-        context.close();
+        context.close();//如果不关闭，会一直启动着。
+    }
+}
+/*************************************消息生产者*************************************/
+/*************************************消息消费者*************************************/
+ConsumerMessageListenner.java
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+
+public class ConsumerMessageListenner implements MessageListener {
+    public void onMessage(Message message) {
+        TextMessage textMessage = (TextMessage) message;
+        try {
+            System.out.println("接收消息："+textMessage.getText());
+        } catch (JMSException e) {
+            e.printStackTrace();
+        }
     }
 }
 
+AppConsumer.java
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class AppConsumer {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("consumer.xml");//此处不关闭，消息监听器会一直启动着监听
+    }
+}
+
+
+/*************************************消息消费者*************************************/
 
 --------------------------------------------------
 
@@ -127,9 +152,10 @@ pom.xml
 
 --------------------------------------------------
 
-3.resources文件
+3.resources xml配置文件
 
-producer.xml
+公用配置：
+common.xml
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -148,16 +174,54 @@ http://www.springframework.org/schema/context/spring-context.xsd">
     <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
         <property name="targetConnectionFactory" ref="targetConnectionFactory"/>
     </bean>
-    <!--一个队列目的地，点对点的-->
+    <!--一个队列模式目的地，点对点的-->
     <bean id="queueDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg value="queue"/>
+        <constructor-arg value="zhanghaochun-queue"/>
     </bean>
+    <!--一个主题模式目的地-->
+    <bean id="topicDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="zhanghaochun-topic"/>
+    </bean>
+</beans>
+
+
+生产者：
+producer.xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="common.xml"/>
     <!--配置JmsTemplate，用于发送消息-->
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="queueDestination" />
     </bean>
 
     <bean id="ProducerService" class="com.imooc.jms.producer.ProducerServiceImpl"></bean>
 </beans>
 
 
+消费者：
+consumer.xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--导入公共配置-->
+    <import resource="common.xml"/>
+    <!--配置消息监听器-->
+    <bean id="consumerMessageListener" class="com.imooc.jms.consumer.ConsumerMessageListenner"></bean>
+    <!--Spring提供消息容器，自动连接连接工厂-->
+    <bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!--<property name="destination" ref="queueDestination"/>--><!--队列模式-->
+        <property name="destination" ref="topicDestination"/><!--主题模式-->
+        <property name="messageListener" ref="consumerMessageListener"/>
+    </bean>
+</beans>
