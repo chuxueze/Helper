@@ -1,0 +1,4 @@
+com\imooc\jms\producer\AppProducer.class
+com\imooc\jms\producer\ProducerService.class
+com\imooc\jms\producer\ProducerServiceImpl.class
+com\imooc\jms\producer\ProducerServiceImpl$1.class
