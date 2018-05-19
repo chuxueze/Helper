@@ -21,3 +21,5 @@ zkService.sh
 
 启动:zkService.sh start
 停止:zkService.sh stop
+
+windows可以直接打开  zkService.cmd
