@@ -720,3 +720,27 @@ cast
 convert：
 用法：convert(字段,数据类型)
 实例：select convert(a ,unsigned) as b from cardserver where order by b desc;
+
+
+
+4.列转行
+数据库存的数据是早中晚分成三条数据的。可以通过分组加聚合函数将数据转成行
+SELECT
+	a.userId,
+	a.companyName,
+	a.userDepartment,
+	a.orderDate,
+	ifnull( MAX( CASE WHEN a.orderType = 'early' THEN a.number END ), 0 ) AS early,
+	ifnull( MAX( CASE WHEN a.orderType = 'middle' THEN a.number END ), 0 ) AS middle,
+	ifnull( MAX( CASE WHEN a.orderType = 'late' THEN a.number END ), 0 ) AS late,
+	ifnull( MAX( CASE WHEN a.orderType = 'early' THEN a.eatNum END ), 0 ) AS actualEarlySum,
+	ifnull( MAX( CASE WHEN a.orderType = 'middle' THEN a.eatNum END ), 0 ) AS actualMiddleSum,
+	ifnull( MAX( CASE WHEN a.orderType = 'late' THEN a.eatNum END ), 0 ) AS actualLateSum,
+	ifnull( MAX( CASE WHEN a.orderType = 'early' THEN a.number - a.eatNum END ), 0 ) AS alreadyEarlySum,
+	ifnull( MAX( CASE WHEN a.orderType = 'middle' THEN a.number - a.eatNum END ), 0 ) AS alreadyMiddleSum,
+	ifnull( MAX( CASE WHEN a.orderType = 'late' THEN a.number - a.eatNum END ), 0 ) AS alreadyLateSum 
+FROM
+	order_help_infos a 
+GROUP BY
+	a.userId,
+	a.orderDate;
