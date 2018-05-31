@@ -24,7 +24,7 @@
 -XX:+PrintGCDetails:可以查看详细信息，包括各个区的情况
 -Xms:设置Java程序启动时的初始堆大小
 -Xmx:设置Java程序能获得的最大堆大小
--Xmx20m -Xms5m -XX:PrintCommandLineFlags:可以将隐式或者显示传给虚拟机的参数输出
+-Xmx20m -Xms5m -XX:+PrintCommandLineFlags:可以将隐式或者显示传给虚拟机的参数输出
 总结:
     在实际工作中，我们可以直接将初始的堆大小与最大堆大小设置相等，这样的好处是
 可以减少程序运行时的垃圾回收次数，从而提高性能。

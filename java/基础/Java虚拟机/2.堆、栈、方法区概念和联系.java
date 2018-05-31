@@ -64,6 +64,23 @@ S0(user1、user2)--user1-->S1(user1)
 结果:
 S0()  S1(user1)
 
+S0 与 S1
+也称from区和to区
+
+实例:
+最大内存:981M
+空闲内存:940M
+总内存:981M
+Heap
+ PSYoungGen      total 305664K, used 47190K [0x00000000eab00000, 0x0000000100000000, 0x0000000100000000)
+  eden space 262144K, 18% used [0x00000000eab00000,0x00000000ed915988,0x00000000fab00000)
+  from space 43520K, 0% used [0x00000000fd580000,0x00000000fd580000,0x0000000100000000)
+  to   space 43520K, 0% used [0x00000000fab00000,0x00000000fab00000,0x00000000fd580000)
+ ParOldGen       total 699392K, used 0K [0x00000000c0000000, 0x00000000eab00000, 0x00000000eab00000)
+  object space 699392K, 0% used [0x00000000c0000000,0x00000000c0000000,0x00000000eab00000)
+ Metaspace       used 7919K, capacity 8218K, committed 8448K, reserved 1056768K
+  class space    used 924K, capacity 987K, committed 1024K, reserved 1048576K
+
 -------------
 3.栈详解
 1)Java栈是一块线程私有的内存空间，一个栈，一般由三部分组成:局部变量表，操作数栈和帧数据区。
