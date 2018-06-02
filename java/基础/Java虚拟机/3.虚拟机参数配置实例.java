@@ -58,3 +58,6 @@ o -XX:+UseConcMarkSweepGC:设置并发收集器
 5. 并发收集器设置
 -XX:+CMSIncrementalMode:设置为增量模式。适用于单CPU情况。 
 -XX:ParallelGCThreads=n:设置并发收集器年轻代收集方式为并行收集时，使用的CPU数。并行收集线程数。
+
+
+如果想要调试好最准确的参数，可以结合 jMeter 性能测试工具，去修改配置参数，并调试最优解决方案。
