@@ -25,4 +25,4 @@ max-age=<seconds>
 s-maxage=<seconds>
 代理服务器优先读取此设置
 
-max-stale=<seconds >
+max-stale=<seconds>
