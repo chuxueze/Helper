@@ -17,6 +17,9 @@
 
 
 2.数据协商分类
+客户端向服务端发送请求的时候，会向服务端声明请求的格式，服务端根据请求的
+格式，再将符合格式的数据返回给客户端。
+服务端有时并不会返回非常正确的格式的数据。
 请求:
 Request Headers
 Accept: text/plain, */; q=0.01
@@ -26,7 +29,7 @@ User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like
 
 Accept:请求的数据格式
 Accept-Encoding:请求的编码方式
-Accept-Language:请求的语言编码
+Accept-Language:请求的语言编码 q=0.9 为权重，q 越大，权重越大。
 User-Agent:浏览器的相关信息
 
 
