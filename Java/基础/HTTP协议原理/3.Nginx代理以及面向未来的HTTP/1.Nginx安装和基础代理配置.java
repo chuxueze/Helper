@@ -32,6 +32,15 @@ nginx.conf
 include       servers/*.conf;
 此配置可以使servers目录下的其他.conf文件生效
 
+
+proxy_set_header Host $host;
+配置头信息之后，则访问的请求地址就是浏览器输入的地址
+
+Nginx代理可以在中间过程中修改头信息，可以修改body。如果我们请求的数据不符合规范，就要考虑是否
+因为中间代理做了手脚。
+
+如果是HTTPS,那么整个传输过程是加密的，所以不会有这种被修改的情况。
+
 ----------------
 4.例子
 
@@ -50,3 +59,4 @@ include       servers/*.conf;
 
 http://127.0.0.1:8888/js/a/login
 http://test.com/js/a/login
+

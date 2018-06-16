@@ -85,3 +85,74 @@ upstream test {
         server localhost:8081;
     }
 限制同个 Ip 只访问同1个服务器。
+
+
+
+---------------
+3.HTTP服务器(包含动静分离)
+  Nginx 本身也是1个静态资源的服务器，当只有静态资源的时候，就可以使用 Nginx 来做服务器。
+
+
+----Nginx 做静态资源服务器:
+server {
+        listen       80;                                                         
+        server_name  localhost;                                               
+        client_max_body_size 1024M;
+ 
+ 
+        location / {
+               root   e:wwwroot;
+               index  index.html;
+           }
+    }
+  这样如果访问 http://localhost 就会默认访问到E盘wwwroot目录下面的index.html，
+如果1个网站只是静态页面的话，那么就可以通过这种方式来实现部署。
+
+
+
+----动静分离
+    动静分离是让动态网站里的动态网页根据1定规则把不变的资源和经常变的资源区分开来，
+动静资源做好了拆分以后，我们就可以根据静态资源的特点将其做缓存操作，这就是网站静态化处理的核心思路
+
+upstream test{  
+       server localhost:8080;  
+       server localhost:8081;  
+    }   
+ 
+    server {  
+        listen       80;  
+        server_name  localhost;  
+ 
+        location / {  
+            root   e:wwwroot;  
+            index  index.html;  
+        }  
+ 
+        # 所有静态请求都由nginx处理，存放目录为html  
+        location ~ .(gif|jpg|jpeg|png|bmp|swf|css|js)$ {  
+            root    e:wwwroot;  
+        }  
+ 
+        # 所有动态请求都转发给tomcat处理  
+        location ~ .(jsp|do)$ {  
+            proxy_pass  http://test;  
+        }  
+ 
+        error_page   500 502 503 504  /50x.html;  
+        location = /50x.html {  
+            root   e:wwwroot;  
+        }  
+    }
+    这样我们就可以把 HTML 以及图片和 css 以及 js 放到 wwwroot 目录下，
+而 tomcat 只负责处理 jsp 和请求，例如当我们后缀为 gif 的时候，Nginx 默认会从 wwwroot 
+获取到当前请求的动态图文件返回，当然这里的静态文件跟 Nginx 是同1台服务器，我们也可以在
+另外1台服务器，然后通过反向代理和负载均衡配置过去就好了，只要搞清楚了最基本的流程，
+很多配置就很简单了，另外 localtion 后面其实是1个正则表达式，所以非常灵活。
+
+---------------
+4.正向代理
+
+   正向代理，意思是1个位于客户端和原始服务器 (origin server) 之间的服务器，为了从原始服务器
+取得内容，客户端向代理发送1个请求并指定目标 (原始服务器)，然后代理向原始服务器转交请求并将获
+得的内容返回给客户端。客户端才能使用正向代理。当你需要把你的服务器作为代理服务器的时候，可以用
+Nginx 来实现正向代理。
