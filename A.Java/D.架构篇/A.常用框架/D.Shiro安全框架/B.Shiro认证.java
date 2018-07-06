@@ -2,7 +2,7 @@
 1.创建SecurityManager
 2.主体提交认证
 3.创建SecurityManager认证
-4.Realm验证
+4.Realm 领域 验证 
 5.Authenticator认证
 
 public class AuthenticationTest {
