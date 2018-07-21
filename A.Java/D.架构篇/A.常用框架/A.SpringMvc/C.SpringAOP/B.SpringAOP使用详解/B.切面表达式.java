@@ -20,7 +20,7 @@ execution()
 @within()
 @annotation()
 3)匹配包/类型
-within()
+within()	
 4)匹配对象
 this()
 bean()
@@ -29,6 +29,15 @@ target()
 @args()
 
 
+注解详说
+@within()
+//匹配 ProductService 类里头的所有方法
+@Pointcut("within(com.imooc.service.ProductService)")
+public void mathType(){}
+
+//匹配 com.imooc 包及子包下所有类的方法
+@Pointcut("within(com.imooc..*)")
+public void matchPackage(){}
 
 
 
