@@ -123,7 +123,15 @@ public class RedisService {
     @Autowired
     JedisPool jedisPool;
 
-    public <T> boolean set(String key,T value){
+    /**
+     * 设置对象
+     * @param prefix
+     * @param key
+     * @param value
+     * @param <T>
+     * @return
+     */
+    public <T> boolean set(KeyPrefix prefix,String key,T value){
         Jedis jedis = null;
         try{
             jedis = jedisPool.getResource();
@@ -131,7 +139,14 @@ public class RedisService {
             if(str == null || str.length()<=0){
                 return false;
             }
-            jedis.set(key,str);
+            //生成真正的key
+            String realKey = prefix.getPrefix() + key;
+            int seconds = prefix.expireSeconds();
+            if(seconds <= 0){
+                jedis.set(realKey,str);
+            }else{
+                jedis.setex(realKey,seconds,str);
+            }
             return true;
         }finally{
             returnToPool(jedis);
@@ -155,11 +170,21 @@ public class RedisService {
         return JSONObject.toJSONString(value);
     }
 
-    public <T> T get(String key,Class<T> clazz){
+    /**
+     * 获取单个对象
+     * @param prefix
+     * @param key
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public <T> T get(KeyPrefix prefix,String key,Class<T> clazz){
         Jedis jedis = null;
         try{
             jedis = jedisPool.getResource();
-            String str = jedis.get(key);
+            //生成真正的key
+            String readKey = prefix.getPrefix() + key;
+            String str = jedis.get(readKey);
             T t = stringToBean(str,clazz);
             return t;
         }finally{
@@ -189,8 +214,65 @@ public class RedisService {
         }
     }
 
+    /**
+     * 判断是否已经存在Key
+     * @param prefix
+     * @param key
+     * @param <T>
+     * @return
+     */
+    public<T> boolean exists(KeyPrefix prefix,String key){
+        Jedis jedis = null;
+        try{
+            jedis = jedisPool.getResource();
+            //生成真正的key
+            String readKey = prefix.getPrefix() + key;
+            return jedis.exists(readKey);
+        }finally{
+            returnToPool(jedis);
+        }
+    }
+
+    /**
+     * 增加值
+     * @param prefix
+     * @param key
+     * @param <T>
+     * @return
+     */
+    public<T> Long incr(KeyPrefix prefix,String key){
+        Jedis jedis = null;
+        try{
+            jedis = jedisPool.getResource();
+            //生成真正的key
+            String readKey = prefix.getPrefix() + key;
+            return jedis.incr(readKey);
+        }finally{
+            returnToPool(jedis);
+        }
+    }
+
+    /**
+     * 减少值
+     * @param prefix
+     * @param key
+     * @param <T>
+     * @return
+     */
+    public<T> Long decr(KeyPrefix prefix,String key){
+        Jedis jedis = null;
+        try{
+            jedis = jedisPool.getResource();
+            //生成真正的key
+            String readKey = prefix.getPrefix() + key;
+            return jedis.decr(readKey);
+        }finally{
+            returnToPool(jedis);
+        }
+    }
 
 }
+
 
 
 RedisPoolFactory.java
@@ -220,6 +302,53 @@ public class RedisPoolFactory {
         return jedisPool;
     }
 }
+
+
+Redis 相关处理类
+
+KeyPrefix.java
+public interface KeyPrefix {
+    public int expireSeconds();
+    public String getPrefix();
+}
+
+BasePrefix.java
+public abstract class BasePrefix implements KeyPrefix{
+    private int expireSeconds;
+    private String prefix;
+
+    public BasePrefix(String prefix){
+        this(0,prefix);
+    }
+
+    public BasePrefix(int expireSeconds,String prefix){
+        this.expireSeconds = expireSeconds;
+        this.prefix = prefix;
+    }
+    //默认0代表永不过期
+    public int expireSeconds(){
+        return 0;
+    }
+    public String getPrefix(){
+        String className = getClass().getSimpleName();
+        return className+":"+prefix;
+    }
+}
+
+业务类 Key
+UserKey.java
+public class UserKey extends BasePrefix{
+
+    public UserKey(String prefix) {
+        super(prefix);
+    }
+    public static UserKey getById = new UserKey("id");
+    public static UserKey getByName = new UserKey("name");
+}
+
+
+
+
 
 
 -------------------------
