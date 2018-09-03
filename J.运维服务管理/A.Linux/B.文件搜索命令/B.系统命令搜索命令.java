@@ -1,6 +1,6 @@
 1.搜索命令的命令 whereis
-
-
+2.搜索命令的命令 which
+3.环境变量 $PATH
 
 
 
@@ -16,4 +16,17 @@ whereis 命令名
 
 whereis ls
 whereis -b ls
-whereis -m ls
+whereis -m ls  
+
+-----------------------------
+2.搜索命令的命令 which
+which 文件名
+搜索命令所在路径及别名
+
+
+-----------------------------
+3.环境变量 $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/java/jdk1.8.0_151/bin:/root/bin
+    有了环境变量之后，输入系统命令的时候，就不用绝对路径了，
+直接输入命令即可。如果能在这些目录文件中找到命令，则可以
+直接执行命令。
