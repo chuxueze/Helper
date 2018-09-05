@@ -109,6 +109,8 @@ tar -xvf
 ----------------------------------
 10.tar.gz 压缩格式
 其实.tar.gz 格式是先打包为.tar 格式，再压缩为.gz 格式
+    打包 -> 压缩:可以解决不可以压缩目录的问题，先将文件和目录打包成1个 tar 文件,
+再将文件压缩成 .gz 格式。
 
 压缩
 tar -zcvf 压缩包名 .tar.gz 源文件
@@ -117,10 +119,19 @@ tar -zcvf 压缩包名 .tar.gz 源文件
 例子:
 tar -zcvf test.tar.gz test
 
+批量压缩
+tar -zcvf /tmp/test.tar.gz jp 4j.log test
+打包并压缩 jp、4j.log、test 三个文件或目录到 tmp 目录下，取名为 test.tar.gz
+
+
 解压缩
 tar -zxvf 压缩包名 .tar.gz
 选项:
 	-x:解压缩 .tar.gz 格式
+
+
+查看压缩文件，但是不解压
+tar -ztvf 压缩包名
 
 ----------------------------------
 11.tar.bz2 压缩格式
