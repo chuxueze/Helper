@@ -1,5 +1,6 @@
 1.SpringBoot JPA
 2.步骤
+3.例子-操作JPA
 
 
 
@@ -96,3 +97,52 @@ public class Girl {
         this.age = age;
     }
 }
+
+
+------------------------------------
+3.例子-操作JPA
+
+JPA中已经集成大部分方法的查询
+只需要在 dao 继承 JPA
+
+dao 层
+public interface GirlRepository extends JpaRepository<Girl,Integer> {
+}
+
+controller 层
+注入 dao
+@RestController
+public class GirlController {
+    @Autowired
+    private GirlRepository girlRepository;
+
+    @GetMapping(value = "/list")
+    public List<Girl> findAll(){
+       return girlRepository.findAll();
+    }
+}
+
+
+
+通过条件查询数据，需要注意 interface 定义的接口方法名称，JPA可以自动识别并拼接条件
+如根据年龄查询
+
+public interface GirlRepository extends JpaRepository<Girl,Integer> {
+    public List<Girl> findByAge(Integer age);
+}
+
+Controller
+@RestController
+public class GirlController {
+    @Autowired
+    private GirlRepository girlRepository;
+
+    @PostMapping(value = "/findByAge")
+    public List<Girl> findByAge(@RequestBody Girl girl){
+        Integer age = girl.getAge();
+        return (List<Girl>) girlRepository.findByAge(age);
+    }
+}
+
+
+
