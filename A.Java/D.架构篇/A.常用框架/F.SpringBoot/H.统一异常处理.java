@@ -1,5 +1,6 @@
 1.统1返回的数据格式
 2.统1处理异常
+3.编译与信息要写为枚举类，统1管理
 
 
 
@@ -249,3 +250,75 @@ public class ExceptionHandle {
     }
 }
 
+
+
+-------------------------------------------------------------------------
+3.编译与信息要写为枚举类，统1管理
+结果枚举类:
+package com.imooc.enums;
+public enum ResultEnum {
+    UNKONW_EROOR("-1","未知错误"),
+    SUCCECC("0","成功"),
+    PRIMARY_SCHOOL("100","你在上小学吗"),
+    MIDDELE_SCHOOL("101","你在上初中吗")
+    ;
+
+    private String code;
+    private String msg;
+
+    ResultEnum(String code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+}
+
+
+自定义异常处理类
+import com.imooc.enums.ResultEnum;
+
+/**
+ * 自定义异常处理类
+ * Created By Administrator
+ * on 2018/10/1/001
+ */
+public class GirlException extends RuntimeException{
+    public GirlException(ResultEnum resultEnum){
+        super(resultEnum.getMsg());
+        this.code = resultEnum.getCode();
+    }
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+}
+
+
+Controller:
+	@PostMapping(value = "/add")
+    public Result add(@Valid  @RequestBody Girl girl, BindingResult bindingResult) throws Exception{
+        if(bindingResult.hasErrors()){
+            throw new GirlException(ResultEnum.MIDDELE_SCHOOL);
+        }
+        return null;
+    }
