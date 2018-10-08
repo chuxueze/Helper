@@ -13,7 +13,21 @@ server:
     #项目名
     context-path: /imooc
 
+SpringBoot 默认会从四个位置找 application.yml 配置文件
+1.1:
+项目 --> application.yml
+1.2:
+项目 --> config --> application.yml
+1.3:
+项目 --> src/main/resources --> application.yml
+1.4:
+项目 --> src/main/resources --> config --> application.yml
 
+读取优先级:
+1.4--1.3--1.2--1.1
+
+默认的配置参数可以从 SpringBoot 官网查找。
+SpringBoot 提供了很多的默认参数可以直接使用
 -------------------------------------------------------------------
 2.通过注解获取属性
 
