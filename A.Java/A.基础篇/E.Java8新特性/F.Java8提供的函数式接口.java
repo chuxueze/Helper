@@ -1,6 +1,7 @@
 1.简介:
 2.四大核心功能接口:
-
+3.注意点:
+4.代码实例(自定义函数式表达式)
 
 
 
@@ -47,3 +48,68 @@ public interface Predicate<T> {
     boolean test(T t);
 }
 进行操作判断
+
+
+-----------------------------------------------------------
+3.注意点:
+如果接口定义了
+java.lang.Object
+的默认方法，则不计算在内。
+
+
+如下:
+此接口为1个函数式接口
+package com.zhc.test;
+@FunctionalInterface
+public interface MyInterface {
+   void test();
+}
+
+此接口虽然定义了三个方法，但是由于 toString和hashCode 是 Object 类的默认方法，所以也是可以编译通过的。
+package com.zhc.test;
+@FunctionalInterface
+public interface MyInterface {
+   void test();
+   String toString();
+   int hashCode();
+}
+
+为什么???
+例如:
+toString() 方法是 Object 类的默认方法，任何类都会直接或间接地继承 Object，也就相当于实现 toString 方法。
+如果1个实现类实现了 MyInterface 这个接口，则它也会继承 Object 类并实现其方法。
+
+
+
+-----------------------------------------------------------
+4.代码实例(自定义函数式表达式)
+public class MyInterfaceTest {
+    public static void testInterface(MyInterface myInterface) {
+        System.out.println("开始了");
+        myInterface.test();
+        System.out.println("结束了");
+    }
+    public static void main(String[] args) {
+        testInterface(() -> System.out.println("表达式"));
+        System.out.println("||||||||||||||||||||||||||");
+        testInterface(new MyInterface() {
+            @Override
+            public void test() {
+                System.out.println("内部类");
+            }
+        });
+    }
+}
+
+输出:
+
+开始了
+表达式
+结束了
+||||||||||||||||||||||||||
+开始了
+内部类
+结束了
+
+testInterface(() -> System.out.println("表达式"));
+此行代码代表了对 myInterface 接口下方法的实现，此方法为唯1的方法。

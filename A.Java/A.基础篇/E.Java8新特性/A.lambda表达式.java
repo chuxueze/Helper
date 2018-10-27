@@ -6,6 +6,7 @@
     2.使用 lambda 表达式对集合进行迭代
     3.使用 lambda 表达式实现 map
 )
+4.遍历集合的例子与原理:
 
 
 ------------------------------------------------------------------------------------------------
@@ -16,7 +17,7 @@ Lambda 允许把函数作为1个方法的参数（函数作为参数传递进方
 
 使用 Lambda 表达式可以使代码变的更加简洁紧凑。
 
-----------------------------------------------
+-----------------------------------------------------------
 2.语法:
 lambda 表达式的语法格式如下：
 
@@ -28,7 +29,7 @@ parameters:参数
 expression:表达式
 statements:声明
 
-----------------------------------------------
+-----------------------------------------------------------
 3.作用:
 1.替代匿名内部类
 //1.1：匿名内部类
@@ -117,3 +118,49 @@ interface Message2 {
     	}
     	list.stream().map(m -> m).forEach(x -> System.out.println(x));
     }
+
+
+-----------------------------------------------------------
+4.遍历集合的例子与原理:
+
+public class ListFor {
+    public static void main(String[] args) {
+        List<Integer> list = ListFor.addDataToList(10);
+        ListFor.soutList(list);
+    }
+    //添加数据
+    private static List<Integer> addDataToList(int len){
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0;i < len;i++){
+            list.add(i);
+        }
+        return list;
+    }
+    //输出数据
+    private static void soutList(List<Integer> list){
+        //第一种lamba表达式
+        System.out.println("lamba表达式");
+        list.forEach(val -> System.out.print(val));
+        System.out.println("");
+        //第二种匿名接口
+        System.out.println("匿名接口");
+        list.forEach(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer val) {
+                System.out.print(val);
+            }
+        });
+    }
+}
+
+default void forEach(Consumer<? super T> action) {
+    Objects.requireNonNull(action);
+    for (T t : this) {
+        action.accept(t);
+    }
+}
+输出:
+lamba表达式
+0123456789
+匿名接口
+0123456789
