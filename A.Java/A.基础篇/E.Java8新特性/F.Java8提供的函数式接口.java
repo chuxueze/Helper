@@ -2,6 +2,7 @@
 2.四大核心功能接口:
 3.注意点:
 4.代码实例(自定义函数式表达式)
+5.四大核心功能接口详解:
 
 
 
@@ -113,3 +114,30 @@ public class MyInterfaceTest {
 
 testInterface(() -> System.out.println("表达式"));
 此行代码代表了对 myInterface 接口下方法的实现，此方法为唯1的方法。
+
+
+-----------------------------------------------------------
+5.四大核心功能接口详解:
+
+5.1:Function 接口
+@FunctionalInterface
+public interface Function<T, R> {
+	
+	R apply(T t);
+
+	default <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
+        Objects.requireNonNull(before);
+        return (V v) -> apply(before.apply(v));
+    }
+
+    default <V> Function<T, V> andThen(Function<? super R, ? extends V> after) {
+        Objects.requireNonNull(after);
+        return (T t) -> after.apply(apply(t));
+    }
+
+	static <T> Function<T, T> identity() {
+        return t -> t;
+    }
+
+}
+功能接口，接收1个参数 t，返回 1 个数据 R
