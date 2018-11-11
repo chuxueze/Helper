@@ -41,7 +41,7 @@ public static void test3(){
 
 
 应用:
-	public static void test4(){
+	 public static void test4(){
         School school = new School();
         school.setName("洪阳一中");
 
