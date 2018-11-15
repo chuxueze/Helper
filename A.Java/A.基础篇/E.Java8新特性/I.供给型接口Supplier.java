@@ -25,6 +25,7 @@ Supplier: 提供者
 ----------------------------------------------------------------------
 2.例子
 //输出字符串
+//实例1
 public class Supper {
     public static void main(String[] args) {
         Supplier<String> supplier = () -> "Hello World!!!";
@@ -33,9 +34,11 @@ public class Supper {
 }
 
 //通过 Supplier 创建对象
+//实例2
 public static void test2(){
     Supplier<Student> studentSupplier = () -> new Student();
     System.out.println(studentSupplier.get().getName());
     Supplier<Student> supplier = Student::new;
     System.out.println(supplier.get().getAge());
 }
+
