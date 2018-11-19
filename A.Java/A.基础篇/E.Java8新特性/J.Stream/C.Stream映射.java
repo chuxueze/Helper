@@ -22,7 +22,7 @@ map -- 接收 Lambda
 接收1个函数作为参数，该函数会被应用到每个元素上，并将其映射成1个新的元素。
 
 flatMap -- 接收1个函数作为参数，将流中的每个值都换成另1个流，然后把所有流连接成1个流
-
+相当于多个流的合并
 
 ---------------------------------------------
 
@@ -33,8 +33,11 @@ flatMap -- 接收1个函数作为参数，将流中的每个值都换成另1个�
                 new Student(2, "丹", 17),
                 new Student(3, "慧", 25)
         );
-        list.stream().map(student -> student.getName()).forEach(System.out::println);
-        list.stream().map(student -> student.getStuId()*10).forEach(System.out::println);
+        //list.stream().map(student -> student.getName()).forEach(System.out::println);
+        //list.stream().map(student -> student.getStuId()*10).forEach(System.out::println);
+
+        list.stream().map(Student::getName).forEach(System.out::println);
+        list.stream().map(Student::getStuId*10).forEach(System.out::println);
     }
 
 浩纯
