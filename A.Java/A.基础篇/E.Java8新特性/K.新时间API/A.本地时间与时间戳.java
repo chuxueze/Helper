@@ -62,18 +62,31 @@ private static void test24() {
 ----------------------------------------------------------
 2.计算时间间隔:
 
-private static void test25(){
+	private static void test2(){
+        Instant instantStart = Instant.now();
+        //睡眠一小时
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Instant instantEnd = Instant.now();
 
-    Instant instantStart = Instant.now();
-    try {
-        Thread.sleep(1);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
+        //计算两个时间相隔的时间
+        Duration duration = Duration.between(instantStart,instantEnd);
+        System.out.println(duration.toNanos());
     }
-    Instant instantEnd = Instant.now();
-
-    Duration duration = Duration.between(instantStart,instantEnd);
-    System.out.println(duration);
-}
 输出:
-PT0.001S
+1000000
+
+------------------------------
+	private static void test3(){
+        LocalDate localDate1 = LocalDate.of(2012,7,22);
+        LocalDate localDate2 = LocalDate.now();
+
+        //计算两个日期的间隔时间，年，月，日
+        Period period = Period.between(localDate1,localDate2);
+        System.out.println(period.getYears() + "" + period.getMonths() + "" + period.getDays() );
+    }
+输出:
+6330
