@@ -1,5 +1,6 @@
 1.Optional 类介绍
-2.实例
+2.用法
+3.实例
 
 
 
@@ -23,7 +24,28 @@ Optional 类的引入很好的解决空指针异常。
 
 
 --------------------------------------------------------------------
-2.实例
+2.用法
+private static void test22(){
+    List<Integer> list = ListFor.addDataToList(10);
+    Optional<List> optional2 = Optional.of(list);
+    List list2 = optional2.get();
+    list2.forEach(System.out::println);
+    //此方法也报了空指针异常，只是报错的地方是在optianl3。
+    //好处在于：如果我们用optional去接收对象，则可以快速定位到报异常位置为optional
+    //只有容易出现空指针异常的地方才推荐使用optional。
+    Optional<List> optional3 = Optional.of(null);
+    List list3 = optional3.get();
+    list3.forEach(System.out::println);
+
+    Optional<List> optional4 = Optional.ofNullable(null);
+    List list4 = optional4.get();
+    list4.forEach(System.out::println);
+}
+
+
+
+--------------------------------------------------------------------
+3.实例
 不推荐此方式:惯有的面向对象的写法
 public static void test2(){
     Optional optional = Optional.ofNullable("Hello World!");
