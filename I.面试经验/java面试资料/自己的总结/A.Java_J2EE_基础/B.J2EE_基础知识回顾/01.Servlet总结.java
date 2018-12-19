@@ -11,3 +11,5 @@
 1个 Servlet 类只会有1个实例，在它初始化时调用 init()方法，销毁时调用 destroy()方法。
     Servlet 需要在 web.xml 中配置（MyEclipse 中创建 Servlet 会自动配置），一个 Servlet 可以设置多个URL访问。
 Servlet 不是线程安全，因此要谨慎使用类变量
+
+
