@@ -2,7 +2,7 @@
 2.Error（错误）:
 3.Exception（异常）:
 4.Throwable 类常用方法:
-
+5.异常处理总结:
 
 
 
@@ -53,3 +53,24 @@ public string toString():返回异常发生时的简要描述
 public string getLocalizedMessage():返回异常对象的本地化信息。使用 Throwable 的子类覆盖这个方法，可以声称本地化信息。如果子类没有覆盖该方法，
                    则该方法返回的信息与 getMessage（）返回的结果相同
 public void printStackTrace():在控制台上打印 Throwable 对象封装的异常信息
+
+
+
+------------------------------------------------
+
+5.异常处理总结:
+
+try 块：用于捕获异常。其后可接零个或多个 catch 块，如果没有 catch 块，则必须跟1个 finally 块。
+catch 块：用于处理 try 捕获到的异常。
+finally 块：无论是否捕获或处理异常，finally 块里的语句都会被执行。当在 try 块或 catch 块中遇到 return 语句时，finally 语句块将在方法返回之前被执行。
+
+
+
+-----------------
+
+在以下4种特殊情况下，finally 块不会被执行：
+
+在 finally 语句块中发生了异常。
+在前面的代码中用了 System.exit() 退出程序。
+程序所在的线程死亡。
+关闭CPU。
