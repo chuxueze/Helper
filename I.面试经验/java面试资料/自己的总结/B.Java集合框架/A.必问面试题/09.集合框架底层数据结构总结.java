@@ -9,8 +9,8 @@
 1.Collection:
 
 1)List
-    Arraylist： Object数组
-    Vector： Object数组
+    Arraylist： Object 数组
+    Vector： Object 数组
     LinkedList： 双向链表(JDK1.6 之前为循环链表，JDK1.7 取消了循环) 详细可阅读 JDK1.7-LinkedList 循环链表优化
 
 
