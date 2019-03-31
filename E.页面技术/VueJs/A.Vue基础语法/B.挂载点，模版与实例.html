@@ -1,0 +1,57 @@
+1.挂载点，模板，实例间的关系:
+2.样例:
+
+
+
+
+
+--------------------------------------------------------------------------------------------------
+1.挂载点，模板，实例间的关系:
+
+挂载点:
+<div id="app"></div>
+对应 el:'#app' 的Vue
+Vue 只作用于挂载点内	
+
+------------------------------
+
+模板
+模板存在于挂载点之下
+
+template:'<p>{{ message }}</p>',
+可以将挂载点内的内容，写在模板标签下。
+此写法与如下效果一致。
+<div id="app">
+	<p>{{ message }}</p>
+</div>
+
+
+
+
+-------------------------------------------------------
+2.样例:
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+	<div id="app">
+	  
+	</div>
+
+<script>
+
+	new Vue({
+	  el: '#app',
+	  template:'<p>{{ message }}</p>',
+	  data: {
+	    message: 'Hello Vue.js!'
+	  }
+	})
+</script>
+</body>
+</html>

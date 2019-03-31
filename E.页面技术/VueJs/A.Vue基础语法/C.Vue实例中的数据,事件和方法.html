@@ -1,0 +1,72 @@
+1.Vue实例中的数量，事件和方法
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------
+1.Vue实例中的数量，事件和方法
+
+插值方式:
+1.1:
+{{ message }}
+插值表达式 
+
+1.2:
+<p v-text="message"></p>
+
+1.3:
+<p v-html="message"></p>
+	  
+v-text 与 v-html 的区别
+v-text，直接显示字符，
+v-html，如果内容包含元素标签，则会进行解析
+
+
+----------------------------------------
+事件:
+<p v-on:click="handClick">{{ message }}</p>
+调用 methods 里的函数
+简写:
+<p @click="handClick">{{ message }}</p>
+
+
+
+
+--------------------------------------------------------------
+样例:
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+	<div id="app">
+	  <p v-text="message"></p>
+	  <p v-html="message"></p>
+	  <p>{{ message }}</p>
+	  <p v-on:click="handClick">{{ message }}</p>
+	</div>
+
+<script>
+
+	new Vue({
+	  el: '#app',
+	  data: {
+	    message: '<button>Hello Vue.js!</button>'
+	  },
+	  methods:{
+	  	handClick: function(){
+	  		this.content = "Hello World!";
+	  	}
+	  }
+	})
+</script>
+</body>
+</html>

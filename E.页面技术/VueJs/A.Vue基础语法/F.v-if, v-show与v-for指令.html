@@ -1,0 +1,73 @@
+1.v-if,v-show,v-for
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+1.v-if,v-show,v-for
+
+v-if:
+直接移除标签
+
+v-show:
+为标签添加css样式 display:none;
+
+推荐v-show
+
+
+v-for
+建议加上 :key=""  将会提升每层渲染的效率
+key 要保持数据不一致。
+样例可以替换成 数据的id
+
+
+
+
+---------------------------------------------------------------
+样例:
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Toggle</title>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+	<div id="app">
+	  <div v-if = "show">holle world v-if</div>
+	  <div v-show = "show">holle world v-show</div>
+	  <button @click = "tog">toggle</button>
+
+	  <!-- v-for -->
+	  <ul>
+	  	<li v-for="(stu,index) of stuList" :key="index">
+	  		{{stu.name}}
+	  	</li>
+	  </ul>
+	</div>
+
+<script>
+
+	new Vue({
+	  el: "#app",
+	  data: {
+	  	show: true,
+	  	stuList: [
+	  		{'name':'张浩纯','age':26},
+	  		{'name':'张佳纯','age':30},
+	  		{'name':'张东纯','age':32}
+	  	]
+	  },
+	  methods: {
+	  	tog: function(){
+	  		this.show = !this.show;
+	  	}
+	  }
+	})
+</script>
+</body>
+</html>

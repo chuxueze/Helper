@@ -1,0 +1,67 @@
+1.属性绑定和双向数据绑定
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------
+1.属性绑定和双向数据绑定
+
+
+属性绑定
+<p v-bind:title="title">{{ message }}</p>
+找到data里面的title，可以实现动态改变title
+
+简写:
+<p :title="title">{{ message }}</p>
+
+------------------------------------------------------------
+双向数据绑定
+普通:
+  数据决定页面的显示
+双向:
+  数据决定页面的显示 
+  页面的改变决定数据
+
+<input v-model="message">
+v-model 指向 message
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>属性绑定和双向数据绑定</title>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+	<div id="app">
+	  <p v-bind:title="title">{{ message }}</p>
+	
+	  <input v-model="message">
+	</div>
+
+<script>
+
+	new Vue({
+	  el: '#app',
+	  data: {
+	    message: 'Hello Vue.js!',
+	    title:'this is title'
+	  }
+	})
+</script>
+</body>
+</html>
