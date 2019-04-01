@@ -1,3 +1,31 @@
+1.todolist功能开发
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------
+1.todolist功能开发
+实现点击提交，能将数据动态添加到ul里。
+
+
+
+思路:
+Vue操作的是数据，不是操作dom。
+只要数据与页面绑定之后，剩下的工作只需要更改数据的值就可以了。
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+样例
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,26 +41,13 @@
 
 	  <!-- v-for -->
 	  <ul>
-	  	<todo-item v-for="(item,index) of list" :key="index" :content="item"></todo-item>
+	  	<li v-for="(item,index) of list" :key="index">
+	  		{{item}}
+	  	</li>
 	  </ul>
 	</div>
 
 <script>
-
-	//全局组件
-	// Vue.component('todo-item',{
-	// 	template: '<li>item</li>'
-	// });
-
-	//局部组件
-	var TodoItem = {
-		//接收属性
-		props: ['content'],
-		//设置模板信息		
-		template: "<li>{{content}}</li>"
-	}
-
-
 	var dataObj = {
 		show: true,
 	  	list: [],
@@ -40,10 +55,6 @@
 	}
 	new Vue({
 	  el: "#app",
-	  //局部组件注册
-	  components: {
-	  	'todo-item': TodoItem
-	  },
 	  data: dataObj,
 	  methods: {
 	  	pullValue: function(){
