@@ -1,0 +1,8 @@
+
+在子组件上添加样式，如果不想影响到其他相关联组件，如父组件，则需要添加 scoped,变成局部样式
+
+<style scoped>
+  .item{
+    color:green;
+  }
+</style>

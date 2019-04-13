@@ -1,0 +1,9 @@
+Vue Cli:为单页面应用 (SPA) 快速搭建繁杂的脚手架。
+
+
+安装 NodeJs之后，cmd执行
+vue init webpack todolist
+
+
+运行项目,cmd执行
+npm run dev
