@@ -76,3 +76,19 @@
  }
 
 多级分组
+
+
+
+
+---------------------------------------------------------------
+public List<Integer> getNumber(){
+    List<Integer> numList = Arrays.asList(1,2,3,4,5,6,7,8,9);
+    //this::handleNumberMsg 流中map的数据可以通过调用方法进行处理
+    List<Integer> handleNumList = numList.stream().map(this::handleNumberMsg).collect(Collectors.toList());
+    return handleNumList;
+}
+private Integer handleNumberMsg(Integer num){
+    //do more things
+    num += 1;
+    return num;
+}
