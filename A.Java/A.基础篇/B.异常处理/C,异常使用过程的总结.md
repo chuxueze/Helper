@@ -5,7 +5,7 @@
 判断参数是否为空时，可以进行抛出数据异常
 throw new IllegalArgumentException("数据不能为空");
 然后在 Controller 层捕获相应的异常，做相应的操作。友好提示用户。
-
+``` java
 	@RequestMapping("change")
 	@ResponseBody
 	public HttpEntity change(@RequestBody JSONObject jsonObject) {
@@ -33,7 +33,9 @@ throw new IllegalArgumentException("数据不能为空");
 			return new HttpEntity(HttpStatus.OK, false, resultMsg, e);
 		}
 	}	
-
+```
 
 异常的抛出可以放在 service ,这样就能把大部分业务逻辑放在 service 层做处理。
 controller 只负责数据的传输与结果返回。
+
+## 这种情况的更好的处理方式是自定义全局业务异常类，遇到异常时，直接抛出异常让异常类进行处理。
