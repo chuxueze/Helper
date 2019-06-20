@@ -80,13 +80,36 @@ private static void test24() {
 1000000
 
 ------------------------------
-	private static void test3(){
-        LocalDate localDate1 = LocalDate.of(2012,7,22);
-        LocalDate localDate2 = LocalDate.now();
+/**
+ * java8 计算两个日期之间的天数
+ */
+public interface DateUtil {
 
-        //计算两个日期的间隔时间，年，月，日
-        Period period = Period.between(localDate1,localDate2);
-        System.out.println(period.getYears() + "" + period.getMonths() + "" + period.getDays() );
+    /**
+     * 计算当前日期与{@code endDate}的间隔天数
+     *
+     * @param endDate
+     * @return 间隔天数
+     */
+     static long until(LocalDate endDate){
+      return LocalDate.now().until(endDate, ChronoUnit.DAYS);
     }
-输出:
-6330
+
+    /**
+     * 计算日期{@code startDate}与{@code endDate}的间隔天数
+     *
+     * @param startDate
+     * @param endDate
+     * @return 间隔天数
+     */
+    static long until(LocalDate startDate, LocalDate endDate){
+        return startDate.until(endDate, ChronoUnit.DAYS);
+    }
+
+
+
+}
+
+
+
+
