@@ -1,24 +1,17 @@
-1.简介:
-2.例子:
+# 目录
+- 1.简介
+- 2.例子
+- 3.通过枚举实现单例模式
 
+---
+# 1.简介
+1、单例类只能有1个实例。  
+2、单例类必须自己创建自己的唯1实例。    
+3、单例类必须给所有其他对象提供这1实例。  
 
-
-
-
-
-
-
----------------------------------------------------------------------------------------------------------------------------------
-1.简介:
-1、单例类只能有1个实例。
-2、单例类必须自己创建自己的唯1实例。
-3、单例类必须给所有其他对象提供这1实例。
-
-
-
-
----------------------------------------------------------------
-2.例子:
+---
+# 2.例子
+``` java
 public class SingleObject {
  
    //创建 SingleObject 的一个对象
@@ -51,3 +44,25 @@ public class SingletonPatternDemo {
       object.showMessage();
    }
 }
+```
+---
+# 3.通过枚举实现单例模式
+``` java
+public enum Singleton {
+
+    INSTANCE;
+
+    public void doSomething() {
+        System.out.println("doSomething");
+    }
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        Singleton.INSTANCE.doSomething();
+    }
+
+}
+```
